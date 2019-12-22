@@ -55,12 +55,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        for(int i=0;i<carname.size();i++)
-                        {
-                            if(position==i) {
-                                Toast toast = Toast.makeText(getApplicationContext(), phone.get(i) , Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), phone.get(position) , Toast.LENGTH_SHORT);
                                 toast.show();
-                            }
+                        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
+                            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.CALL_PHONE},105);
+
+                        }
+                        else
+                        {
+
+                            String dial="tel:"+phone.get(position);
+                            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+
                         }
                     }
                 });
